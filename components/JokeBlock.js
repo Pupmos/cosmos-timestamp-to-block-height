@@ -13,6 +13,6 @@ export default function JokeBlock() {
     }, []);
 
     return (
-        <blockquote className={styles.quote}>{joke}</blockquote>
+        <blockquote className={styles.quote}>{joke + 'joke'}</blockquote>
     )
 }
