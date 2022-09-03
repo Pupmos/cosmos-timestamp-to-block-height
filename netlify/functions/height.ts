@@ -68,6 +68,9 @@ export const handler = async (event) => {
         body: JSON.stringify({
             exactHeight,
             exactTime
-        })
+        }),
+        headers: {
+            "access-control-allow-origin": "*",
+        },
     }
 }
