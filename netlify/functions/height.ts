@@ -14,7 +14,7 @@ const loadBlockHeightFromTimestamp = async (chain: string, dateStr: string) => {
     } = await fetch(`https://chains.cosmos.directory/${chain}`).then(r => r.json());
     // most notional nodes are archive nodes, enabling us to go further back in history.
     // thank you Notional ❤
-    const rpcUri = rpcNodes.find(n => n.provider?.toLowerCase().includes('notional')) || `https://rpc.cosmos.directory/${chain}`;
+    const rpcUri = rpcNodes.find(n => n.provider?.toLowerCase().includes('notional'))?.address || `https://rpc.cosmos.directory/${chain}`;
     console.log({ rpcUri });
     const {
         result: {
@@ -36,6 +36,9 @@ const loadBlockHeightFromTimestamp = async (chain: string, dateStr: string) => {
         }
         const estimatedBlockDelta = Math.floor(delta / (secondPerBlock * 1000));
         estimatedBlockHeight = sampleHeight - estimatedBlockDelta;
+        if (estimatedBlockHeight < 1) {
+            throw new Error('it is estimated that this chain did not exist at that time')
+        }
         console.log({estimatedBlockHeight})
         const actualBlockTime = await fetch(
             `${rpcUri}/block?height=${estimatedBlockHeight}`
