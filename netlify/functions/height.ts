@@ -36,6 +36,7 @@ const loadBlockHeightFromTimestamp = async (chain: string, dateStr: string) => {
         }
         const estimatedBlockDelta = Math.floor(delta / (secondPerBlock * 1000));
         estimatedBlockHeight = sampleHeight - estimatedBlockDelta;
+        console.log({estimatedBlockHeight})
         const actualBlockTime = await fetch(
             `${rpcUri}/block?height=${estimatedBlockHeight}`
         )
