@@ -14,7 +14,8 @@ const loadBlockHeightFromTimestamp = async (chain: string, dateStr: string) => {
     } = await fetch(`https://chains.cosmos.directory/${chain}`).then(r => r.json());
     // most notional nodes are archive nodes, enabling us to go further back in history.
     // thank you Notional ❤
-    const rpcUri = rpcNodes.find(n => n.provider.toLowerCase().includes('notional')) || `https://rpc.cosmos.directory/${chain}`;
+    const rpcUri = rpcNodes.find(n => n.provider?.toLowerCase().includes('notional')) || `https://rpc.cosmos.directory/${chain}`;
+    console.log({ rpcUri });
     const {
         result: {
             block: {
@@ -23,7 +24,6 @@ const loadBlockHeightFromTimestamp = async (chain: string, dateStr: string) => {
         },
     } = await fetch(`${rpcUri}/block`).then((r) => r.json());
 
-    const blockDates = new Map<string, number>();
     const date = new Date(dateStr);
     const ms = date.getTime();
     let sampleHeight = currHeight;
