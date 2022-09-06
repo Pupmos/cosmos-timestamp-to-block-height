@@ -10,9 +10,8 @@ const { Paragraph, Text } = Typography;
 
 const { Option } = Select;
 
-const defaultTime = new Date().toISOString()
 
-const loadHeightFromTimestamp = async (chain: string = 'juno', timestamp: string = defaultTime) => {
+const loadHeightFromTimestamp = async (chain: string = 'juno', timestamp: string) => {
     let { exactHeight, exactTime, err }: { exactHeight?: string, exactTime?: string, err?: string } = await fetch("https://cosmos-timestamp-to-blockheight.netlify.app/api/height", {
         "body": JSON.stringify({ chain, timestamp }),
         "method": "POST"
@@ -80,7 +79,7 @@ const loadHeightFromTimestamp = async (chain: string = 'juno', timestamp: string
 //     };
 // };
 
-const loadChains = async (chain: string = 'juno', timestamp: string = defaultTime): Promise<string[]> => {
+const loadChains = async (): Promise<string[]> => {
     let chains = await fetch("https://chains.cosmos.directory")
         .then(r => r.json())
     chains = chains.chains.sort((a, b) => {
@@ -90,26 +89,28 @@ const loadChains = async (chain: string = 'juno', timestamp: string = defaultTim
 }
 
 
+const defaultMoment = moment.now();
+
 export const BlockSearchForm = () => {
     const [result, setResult] = useState<{ exactHeight?: string, exactTime?: string, err?: string } | null>(null);
     const [chains, setChains] = useState([]);
-    const [formState, setFormState] = useState({ chain: "juno", timestamp: defaultTime, localeDateTime: undefined })
     const [error, setError] = useState('');
-    const [startDate, setStartDate] = useState(moment());
+    const [selectedChain, setSelectedChain] = useState('juno');
+    const [startDate, setStartDate] = useState(defaultMoment);
     const [isLoading, setIsLoading] = useState(false);
     const explorerLink = useMemo(() => {
         if (!chains || !result?.exactHeight) {
             return null;
         }
-        const mintscanUrl = chains.find(c => c.name == formState.chain)?.explorers.find(e => e.url?.includes('mintscan.io'))?.url;
+        const mintscanUrl = chains.find(c => c.name == selectedChain)?.explorers.find(e => e.url?.includes('mintscan.io'))?.url;
         if (!mintscanUrl) {
             return null;
         }
         return `${mintscanUrl}/blocks/${result.exactHeight}`
-    }, [chains, result])
+    }, [chains, result, selectedChain])
     const onSubmit = useCallback(() => {
         setIsLoading(true)
-        loadHeightFromTimestamp(formState.chain, startDate.toDate().toISOString())
+        loadHeightFromTimestamp(selectedChain, startDate.toDate().toISOString())
             .then(r => {
                 setResult(r)
             })
@@ -160,7 +161,9 @@ export const BlockSearchForm = () => {
                             showSearch
                             placeholder="Select a Cosmøs Network"
                             optionFilterProp="children"
-                            // onChange={onChange}
+                            onChange={chain => {
+                                setSelectedChain(chain)
+                            }}
                             // onSearch={onSearch}
                             loading={!chains.length}
                             filterOption={(input, option) =>
@@ -185,6 +188,7 @@ export const BlockSearchForm = () => {
                             value={startDate}
                             onChange={(date) => setStartDate(date)}
                         />
+                        {startDate.toISOString()}
                     </Form.Item>
 
 
