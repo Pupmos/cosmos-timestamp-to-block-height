@@ -121,7 +121,7 @@ export const BlockSearchForm = () => {
             .finally(() => {
                 setIsLoading(false)
             })
-    }, []);
+    }, [startDate, selectedChain]);
     useEffect(() => {
         loadChains().then(chains => setChains(chains))
     }, [])
@@ -195,9 +195,7 @@ export const BlockSearchForm = () => {
 
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <Button loading={isLoading} onClick={() => {
-                            onSubmit()
-                        }} type="primary" htmlType="submit">
+                        <Button loading={isLoading} type="primary" htmlType="submit">
                             Find Block Height
                         </Button>
                     </Form.Item>
