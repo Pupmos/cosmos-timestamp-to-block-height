@@ -101,7 +101,7 @@ export const BlockSearchForm = () => {
         if (!chains || !result?.exactHeight) {
             return null;
         }
-        const mintscanUrl = chains.find(c => c.name == formState.chain)?.explorers.find(e => e.name == 'mintscan')?.url;
+        const mintscanUrl = chains.find(c => c.name == formState.chain)?.explorers.find(e => e.url?.includes('mintscan.io'))?.url;
         if (!mintscanUrl) {
             return null;
         }
