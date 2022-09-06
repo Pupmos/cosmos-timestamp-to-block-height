@@ -191,7 +191,6 @@ export const BlockSearchForm = () => {
                             value={startDate}
                             onChange={(date) => setStartDate(date)}
                         />
-                        {startDate.toISOString()}
                     </Form.Item>
 
 
