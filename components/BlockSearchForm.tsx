@@ -136,7 +136,7 @@ export const BlockSearchForm = () => {
                 title={result.exactHeight ? `Successfully Found Block Height ${result.exactHeight}!` : "Error"}
                 subTitle={result.exactHeight ? `block timestamp: ${result.exactTime}` : result.err.toString() || 'Unknowm Error. Pleez tweat at @pupmos! ❤'}
                 extra={[
-                    <Button disabled={!!result.exactHeight} type="primary" key="console" href={explorerLink}>
+                    <Button disabled={!result.exactHeight} type="primary" key="console" href={explorerLink}>
                         View on Explorer
                     </Button>,
                     <Button onClick={() => setResult(null)} key="buy">Search Again</Button>,
