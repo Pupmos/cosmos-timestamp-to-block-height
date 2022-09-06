@@ -51,9 +51,7 @@ function Application({ Component, pageProps }) {
               <Breadcrumb.Item>List</Breadcrumb.Item>
               <Breadcrumb.Item>App</Breadcrumb.Item> */}
             </Breadcrumb>
-            <div className="site-layout-content">
-              <Component {...pageProps} />
-            </div>
+            <Component {...pageProps} />
           </Col>
         </Row>
       </Content>
