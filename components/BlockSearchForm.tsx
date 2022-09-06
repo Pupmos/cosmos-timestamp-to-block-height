@@ -14,7 +14,10 @@ const { Option } = Select;
 const loadHeightFromTimestamp = async (chain: string = 'juno', timestamp: string) => {
     let { exactHeight, exactTime, err }: { exactHeight?: string, exactTime?: string, err?: string } = await fetch("https://cosmos-timestamp-to-blockheight.netlify.app/api/height", {
         "body": JSON.stringify({ chain, timestamp }),
-        "method": "POST"
+        "method": "POST",
+        headers: [
+            ["Content-Type", "application/json"]
+        ]
     })
         .then(r => r.json()).catch(e => ({ err: e }))
 
@@ -89,7 +92,7 @@ const loadChains = async (): Promise<string[]> => {
 }
 
 
-const defaultMoment = moment.now();
+const defaultMoment = moment(moment.now());
 
 export const BlockSearchForm = () => {
     const [result, setResult] = useState<{ exactHeight?: string, exactTime?: string, err?: string } | null>(null);
