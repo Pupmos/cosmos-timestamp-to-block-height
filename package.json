@@ -18,11 +18,18 @@
     "export": "next export"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@types/antd": "^1.0.0",
+    "@types/react-datepicker": "^4.4.2",
+    "antd": "^4.22.8",
     "cross-fetch": "^3.1.5",
     "cypress": "^10.0.3",
+    "moment": "^2.29.4",
     "next": "^12.1.4",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.0.0",
+    "skeleton-css": "^2.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.18",
